@@ -62,7 +62,11 @@ export default function Books() {
         murder to keep things interesting), true crime (for that "glad it's not
         me" vibe), history books (because who doesn't love reliving the drama of
         the past?), and IT books (because debugging my brain is just as fun as
-        debugging code).
+        debugging code){' '}
+        <span className='text-sm'>
+          <i>(Data from my Goodreads RSS feed)</i>
+        </span>
+        .
       </p>
       <div className='h-full'>
         <div className='mt-4 flex w-fit flex-col'>
