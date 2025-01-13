@@ -1,0 +1,79 @@
+---
+import {Button} from '../ui/button'
+import {PROFILE} from "../../content/profileData";
+import {Linkedin, Github, Instagram, Youtube, Twitter, Rss, Book, PanelLeft} from 'lucide-react'
+import { EmailForm } from '@/components/react/EmailForm';
+---
+
+<div class="flex justify-between h-full w-full animate-appear">
+  <div class="flex flex-col justify-between gap-4 md:max-h-[300px]">
+    <div class="flex h-full flex-col">
+   
+      <p class="m-0 text-xl font-light">
+        Hi, I'm
+        <b class="font-bold">{PROFILE.firstName}</b>.
+      </p>
+      <ul class="pt-4">
+        {PROFILE.shortIntros.map((intro, index) => (
+          <>
+            {index === (PROFILE.shortIntros.length / 2)
+              //when it is even number, and in the middle add an empty line
+
+              ?    <></>
+              :
+              <></>
+            }
+            <li>{intro}</li>
+          </>
+        ))}
+      </ul>
+    </div>
+    <div class="flex flex-col md:flex-row justify-between gap-4">
+      <div class='flex gap-4'>
+        <a href={PROFILE.links.github} aria-label="github profile" target="_blank">
+          <Button aria-label="github profile">
+            <Github/>
+            <span class="sr-only">GitHub Profile</span>
+          </Button>
+        </a>
+        {
+          PROFILE.links?.thread && <a href={PROFILE.links.thread} aria-label="bluesky profile" target="_blank">
+            <Button>
+              <Instagram/>
+              <span class="sr-only">Thread profile</span>
+            </Button>
+          </a>
+        }
+        {
+          PROFILE.links?.linkedin && <a href={PROFILE.links.linkedin} aria-label="bluesky profile" target="_blank">
+            <Button>
+              <Linkedin/>
+              <span class="sr-only">Linkedin profile</span>
+            </Button>
+          </a>
+        }
+        {
+          PROFILE.links?.twitter && <a href={PROFILE.links.twitter} aria-label="twitter profile" target="_blank">
+            <Button>
+              <Twitter/>
+              <span class="sr-only">Twitter profile</span>
+            </Button>
+          </a>
+        }
+        {
+          PROFILE.links?.goodreads && <a href={PROFILE.links.goodreads} aria-label="goodreads profile" target="_blank">
+            <Button>
+              <Book/>
+              <span class="sr-only">Goodreads</span>
+            </Button>
+          </a>
+        }
+      </div>
+      <div>
+        <EmailForm client:load/>
+      </div>
+    
+    </div>
+
+  </div>
+</div>

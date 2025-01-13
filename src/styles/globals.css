@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+  :root {
+    --background: 225 100% 100%;
+    --foreground: 225 5% 10%;
+    --card: 225 50% 100%;
+    --card-foreground: 225 5% 15%;
+    --popover: 225 100% 100%;
+    --popover-foreground: 225 100% 10%;
+    --primary: 225 72.7% 56.9%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 225 30% 90%;
+    --secondary-foreground: 0 0% 0%;
+    --muted: 187 30% 95%;
+    --muted-foreground: 225 5% 40%;
+    --accent: 187 30% 90%;
+    --accent-foreground: 225 5% 15%;
+    --destructive: 0 100% 50%;
+    --destructive-foreground: 225 5% 100%;
+    --border: 225 30% 82%;
+    --input: 225 30% 50%;
+    --ring: 225 72.7% 56.9%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    --background: 225 50% 5%;
+    --foreground: 225 5% 90%;
+    --card: 225 50% 0%;
+    --card-foreground: 225 5% 90%;
+    --popover: 225 50% 5%;
+    --popover-foreground: 225 5% 90%;
+    --primary: 225 72.7% 56.9%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 225 30% 10%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 187 30% 15%;
+    --muted-foreground: 225 5% 60%;
+    --accent: 187 30% 15%;
+    --accent-foreground: 225 5% 90%;
+    --destructive: 0 100% 30%;
+    --destructive-foreground: 225 5% 90%;
+    --border: 225 30% 18%;
+    --input: 225 30% 18%;
+    --ring: 225 72.7% 56.9%;
+    --radius: 0.5rem;
+  }
+}
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.prose img {
+  /*make markdown content image be center*/
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Add this to your global CSS */
+/* .card-animate {
+  opacity: 0;
+  transform: translateY(40%);
+} */

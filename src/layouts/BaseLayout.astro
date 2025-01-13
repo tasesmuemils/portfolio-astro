@@ -1,0 +1,31 @@
+---
+// import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
+import HeadSEO from '../components/HeadSEO.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { Toaster } from '@/components/ui/toaster';
+
+const { title, description, ogImage, canonicalURL } = Astro.props;
+---
+
+<html lang='en'>
+  <head>
+    <HeadSEO
+      title={title}
+      description={description}
+      ogImage={ogImage}
+      canonicalURL={canonicalURL}
+    />
+    <!-- <ViewTransitions /> -->
+    <ClientRouter />
+  </head>
+  <body class='min-h-screen bg-background font-sans antialiased min-w-sm'>
+    <div class='flex flex-col items-center justify-center'>
+      <Header />
+      <slot />
+      <Toaster client:load />
+      <Footer />
+    </div>
+  </body>
+</html>

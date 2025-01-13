@@ -1,0 +1,78 @@
+---
+import { getBooks } from '@/lib/fetchBooks'; // Adjust the path as needed
+import MDXLayout from '../../layouts/MDXLayout.astro';
+import { Star, Users } from 'lucide-react';
+
+export async function getStaticPaths() {
+  // Fetch the books and generate paths dynamically
+  const books = await getBooks();
+
+  return books.map((book) => ({
+    params: { slug: book.slug },
+    props: { book }, // Pass the full book object as props
+  }));
+}
+
+// Get the book data from props
+const { book } = Astro.props;
+---
+
+<MDXLayout frontmatter={book}
+  ><article class='max-w-2xl mx-auto p-4'>
+    <img
+      src={book.image}
+      alt={`Cover of ${book.title}`}
+      width={200}
+      height={300}
+      class='w-full max-w-xs h-auto rounded-lg shadow-md mx-auto mb-6'
+    />
+
+    <!-- <h1 class='text-3xl font-bold mb-2 text-center'>{book.title}</h1>
+    <p class='text-xl mb-4 text-center'>by {book.author}</p> -->
+
+    <div class='flex items-center justify-center mb-4'>
+      <div class='flex mr-2'>
+        {
+          [...Array(5)].map((_, i) => (
+            <Star
+              key={i}
+              className={`w-5 h-5 ${
+                i < Math.floor(book.rating)
+                  ? 'text-yellow-400 fill-current'
+                  : 'text-gray-300'
+              }`}
+            />
+          ))
+        }
+      </div>
+
+      <span class='text-sm'>(my rating)</span>
+    </div>
+
+    <div class='flex justify-center items-center'>
+      <Users className='w-4 h-4 mr-1' />
+      {book.averageRating}
+      <span class='ml-1 text-sm'>(Goodreads rating)</span>
+    </div>
+
+    <p class='mb-4 text-center'>
+      <span class='font-semibold'>Pages:</span>
+      {book.pages}
+    </p>
+
+    <p
+      class='mb-6'
+      set:html={book.long_description.replace(/<b>/g, '<br><b>')}
+    />
+
+    <div class='text-center'>
+      <a
+        href={`https://www.goodreads.com/book/show/${book.slug}`}
+        target='_blank'
+        class='text-blue-500 underline'
+      >
+        View on Goodreads
+      </a>
+    </div>
+  </article></MDXLayout
+>

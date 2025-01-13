@@ -1,0 +1,49 @@
+---
+import { Card as ShadcnCard } from './ui/card';
+import { Badge } from './ui/badge';
+
+const {
+  as: Tag = 'a',
+  class: className,
+  href,
+  heading,
+  subheading,
+  imagePath,
+  altText,
+  dateStart,
+} = Astro.props;
+---
+
+<Tag href={href} class={`${className}`}>
+  <ShadcnCard
+    className='h-full backdrop-blur-sm transition-colors duration-300 '
+  >
+    <div class='relative overflow-hidden'>
+      <img src={imagePath} alt={altText} class='h-48 w-full object-cover' />
+      <div class='absolute inset-0 bg-gradient-to-t to-transparent'></div>
+    </div>
+    <div class='flex h-[calc(100%-12rem)] flex-col justify-between p-5'>
+      <div>
+        <h3 class='mb-2 text-xl font-semibold leading-tight line-clamp-2'>
+          {heading}
+        </h3>
+        <p class='mb-4 text-sm text-muted-foreground line-clamp-3'>
+          {subheading}
+        </p>
+      </div>
+      <div class='flex items-center justify-between'>
+        <!-- <Badge variant="outline" className="flex items-center gap-1">
+              <CalendarIcon className="h-3 w-3" />
+              <span>{dateStart}</span>
+            </Badge> -->
+        {
+          href && (
+            <span class='text-sm font-medium text-primary'>
+              Learn More &rarr;
+            </span>
+          )
+        }
+      </div>
+    </div>
+  </ShadcnCard>
+</Tag>
