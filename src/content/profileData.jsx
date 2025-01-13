@@ -15,7 +15,7 @@ export const PROFILE = {
     'Software Developer | Front-End Specialist (aka, the magician behind the screen)',
   headLine2:
     'I turn caffeine into code, solve problems, and tackle bugs—while making things (and sometimes breaking them)',
-  repo: 'https://github.com/tim-hub/techtim-astro-bento-portfolio',
+  repo: 'https://github.com/tasesmuemils/portfolio-astro',
 
   shortIntros: [
     '💻 Software Developer | Front-End Wizard (or at least trying to be)',
