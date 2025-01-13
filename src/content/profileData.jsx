@@ -18,9 +18,9 @@ export const PROFILE = {
   repo: 'https://github.com/tasesmuemils/portfolio-astro',
 
   shortIntros: [
-    '💻 Software Developer | Front-End Wizard (or at least trying to be)',
+    '💻 Software Developer | Front-End Specialist (or at least trying to be)',
     '🛠️ Tinkering with My Home Lab Server | Because why not turn my house into a tech jungle?',
-    '⚽ FC Barcelona Fan | Watching them win (or lose) is my cardio',
+    '⚽ FC Barcelona Fan | Supporting them through every victory and heartbreak, because who needs drama TV when you have Barça?',
     '🕹️ Video Game Enthusiast | Defeating digital villains one controller at a time',
     '🏡 Building My Dream House in the Countryside | So I can finally have the space to store all my gadgets',
     '📚🎧 Audiobook Listener | Because who has time to read when you can listen while pretending to fold laundry?',
