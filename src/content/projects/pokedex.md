@@ -7,6 +7,6 @@ image: { url: '/assets/images/pokedex.png', alt: 'Pokedex' }
 tags: ['HTML', 'CSS', 'Javascript']
 ---
 
-[Pokedex](https://tasesmuemils.github.io/projects/pokemon_app/index.html) is Web application to check stats about first generation pokemons.
+[Pokedex](https://tasesmuemils.github.io/projects/pokemon_app/index.html){:target="\_blank"} is Web application to check stats about first generation pokemons.
 
 ![](/assets/images/pokedex.png)
