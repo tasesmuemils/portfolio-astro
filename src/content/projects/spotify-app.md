@@ -7,7 +7,7 @@ image: { url: '/assets/images/spotify-app.png', alt: 'Top Spotify Songs' }
 tags: ['React']
 ---
 
-[Top Spotify Songs](https://spotify-stats-app-blue.vercel.app/){:target="\_blank"} Check your top tracks based on calculated affinity
+[Top Spotify Songs](https://spotify-stats-app-blue.vercel.app/) Check your top tracks based on calculated affinity
 
 See your all time or just last month top tracks, listen to previews of the songs, open them on Spotify or create a playlist and listen your favorite tracks any time you want
 
