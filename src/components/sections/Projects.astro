@@ -13,12 +13,12 @@ projects.sort((a: any, b: any) => {
   );
 });
 
-projects = projects.slice(0, 3);
+projects = projects.slice(0, 4);
 ---
 
 <div class='mt-2 space-y-4'>
   {
-    projects.slice(0, 3).map((project: any) => (
+    projects.slice(0, 4).map((project: any) => (
       <div>
         <h3 class='text-lg font-semibold text-primary'>
           <a href={`/projects/${project.slug}`} class='hover:underline'>
