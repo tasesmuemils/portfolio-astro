@@ -1,9 +1,10 @@
 ---
 import ContentTags from "../components/ContentTags.astro";
 import IndexPageLayout from "./IndexPageLayout.astro";
+import {Github} from 'lucide-react'
 
 const {frontmatter} = Astro.props;
-const {title, description, image, startDate, tags, canonical} = frontmatter;
+const {title, description, image, startDate, tags, canonical, git} = frontmatter;
 // frontmatter is from MDX metadata for MD pages, we now use content for data now, we use frontmatter for backward compatibility
 ---
 
@@ -12,7 +13,12 @@ const {title, description, image, startDate, tags, canonical} = frontmatter;
     {tags &&
       <div class="pb-4 mx-auto">
         <ContentTags tags={tags}/>
-      </div>}
+      </div>
+    }
+
+    {
+      git && <div class='pb-4 mx-auto'><a href={git} target='_blank'><Github /></a></div>
+    }
 
     {
       startDate &&
