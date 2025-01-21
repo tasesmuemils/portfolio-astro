@@ -32,7 +32,7 @@ export default function Books() {
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const response = await fetch('/api/books');
+        const response = await fetch(`/api/books?timestamp=${Date.now()}`);
         if (!response.ok) {
           throw new Error('Failed to fetch books');
         }
