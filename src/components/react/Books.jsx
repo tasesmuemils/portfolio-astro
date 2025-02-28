@@ -28,14 +28,24 @@ const LoadingState = () => (
 export default function Books() {
   const [books, setBooks] = useState(null);
   const [error, setError] = useState(null);
+  // const [refreshKey, setRefreshKey] = useState(Date.now());
 
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const response = await fetch(`/api/books?timestamp=${Date.now()}`);
+        const uniqueParam = `timestamp=${Date.now()}&random=${Math.random()}`;
+        const response = await fetch(`/api/books?${uniqueParam}`, {
+          headers: {
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            Pragma: 'no-cache',
+            Expires: '0',
+          },
+        });
+
         if (!response.ok) {
           throw new Error('Failed to fetch books');
         }
+
         const data = await response.json();
         setBooks(data);
       } catch (err) {
@@ -46,6 +56,11 @@ export default function Books() {
 
     fetchBooks();
   }, []);
+
+  // const handleManualRefresh = () => {
+  //   setBooks(null);
+  //   setRefreshKey(Date.now());
+  // };
 
   if (error) {
     return <div className='text-red-500'>{error}</div>;

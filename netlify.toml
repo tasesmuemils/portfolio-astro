@@ -1,3 +1,13 @@
 [build]
   command = "pnpm build"
   publish = "dist"
+
+# Prevent caching for API routes
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Cache-Control = "no-store, no-cache, must-revalidate, proxy-revalidate"
+    Pragma = "no-cache"
+    Expires = "0"
+    Surrogate-Control = "no-store"
+    X-Netlify-Cache-Control = "no-cache"

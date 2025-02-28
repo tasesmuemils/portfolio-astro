@@ -8,10 +8,14 @@ export const GET: APIRoute = async () => {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
+        // Stronger cache prevention
         'Cache-Control':
-          'no-store, no-cache, must-revalidate, proxy-revalidate',
+          'private, no-cache, no-store, must-revalidate, max-age=0',
         Pragma: 'no-cache',
         Expires: '0',
+        'Surrogate-Control': 'no-store',
+        // Add this to prevent Netlify from caching
+        'x-netlify-cache-control': 'no-cache',
       },
     });
   } catch (error) {

@@ -21,7 +21,15 @@ type RssData = {
 };
 
 async function fetchBooks(url: string): Promise<Book[]> {
-  const response = await fetch(url);
+  // Add cache-busting parameter to the URL
+  const cacheBustUrl = `${url}&_cb=${Date.now()}`;
+
+  const response = await fetch(cacheBustUrl, {
+    headers: {
+      'Cache-Control': 'no-cache, no-store',
+      Pragma: 'no-cache',
+    },
+  });
   const rssText = await response.text();
   const rssData = xml2js(rssText, { compact: true }) as RssData;
   return rssData.rss.channel.item || [];
