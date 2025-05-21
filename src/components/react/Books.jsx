@@ -3,26 +3,23 @@ import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 
 const LoadingState = () => (
-  console.log('LoadingState'),
-  (
-    <div className='h-full w-full'>
-      <div className='animate-pulse space-y-3'>
-        <div className='h-4 bg-gray-200 rounded w-full dark:bg-gray-700'></div>
-        <div className='space-y-2'>
-          {[...Array(5)].map((_, i) => (
-            <div key={i} className='flex items-center gap-2'>
-              <div className='h-3 bg-gray-200 rounded w-full dark:bg-gray-700'></div>
-              <div className='h-3 bg-gray-200 rounded w-full dark:bg-gray-700'></div>
-              {i === 0 && (
-                <div className='h-5 bg-gray-200 rounded w-full dark:bg-gray-700'></div>
-              )}
-            </div>
-          ))}
-        </div>
-        <div className='h-4 bg-gray-200 rounded w-full mt-4 dark:bg-gray-700'></div>
+  <div className='h-full w-full'>
+    <div className='animate-pulse space-y-3'>
+      <div className='h-4 bg-gray-200 rounded w-full dark:bg-gray-700'></div>
+      <div className='space-y-2'>
+        {[...Array(5)].map((_, i) => (
+          <div key={i} className='flex items-center gap-2'>
+            <div className='h-3 bg-gray-200 rounded w-full dark:bg-gray-700'></div>
+            <div className='h-3 bg-gray-200 rounded w-full dark:bg-gray-700'></div>
+            {i === 0 && (
+              <div className='h-5 bg-gray-200 rounded w-full dark:bg-gray-700'></div>
+            )}
+          </div>
+        ))}
       </div>
+      <div className='h-4 bg-gray-200 rounded w-full mt-4 dark:bg-gray-700'></div>
     </div>
-  )
+  </div>
 );
 
 export default function Books() {
@@ -69,8 +66,6 @@ export default function Books() {
   if (!books) {
     return <LoadingState />;
   }
-
-  console.log('BOOKS', books[0], books[1]);
 
   return (
     <div className='flex flex-col'>

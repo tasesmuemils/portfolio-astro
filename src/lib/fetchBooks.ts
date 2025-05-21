@@ -30,6 +30,7 @@ async function fetchBooks(url: string): Promise<Book[]> {
       Pragma: 'no-cache',
     },
   });
+
   const rssText = await response.text();
   const rssData = xml2js(rssText, { compact: true }) as RssData;
   return rssData.rss.channel.item || [];
@@ -38,7 +39,9 @@ async function fetchBooks(url: string): Promise<Book[]> {
 export async function getBooks() {
   const booksRead = await fetchBooks(RSS_URL_READ);
   const booksCurrent = await fetchBooks(RSS_URL_CURRENT);
-  const books = [booksCurrent, ...booksRead]; // Combine current and read books
+  console.log(booksCurrent);
+  const books =
+    booksCurrent.length == 0 ? booksRead : [booksCurrent, ...booksRead];
 
   const formattedBooks = books.map((book) => {
     const title = book.title._cdata || book.title._text;
@@ -71,6 +74,8 @@ export async function getBooks() {
       pages,
     };
   });
+
+  console.log(formattedBooks);
 
   return formattedBooks;
 }
