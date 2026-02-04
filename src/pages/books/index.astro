@@ -1,6 +1,4 @@
 ---
-export const prerender = false;
-
 import { getCollection } from 'astro:content';
 import { formateLocalDate, formateLocalMonth } from '../../lib/utils';
 import { Badge } from '../../components/ui/badge';
@@ -19,6 +17,14 @@ import { Card, CardContent } from '@/components/ui/card';
 import { StarRating } from '@/components/react/StarRating';
 
 import { getBooks } from '@/lib/fetchBooks';
+
+export async function getStaticPaths() {
+  const books = await getBooks();
+  return books.map((book) => ({
+    params: { slug: book.slug },
+    props: { book },
+  }));
+}
 
 const books = await getBooks();
 ---
