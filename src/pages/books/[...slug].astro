@@ -1,29 +1,17 @@
 ---
-export const prerender = false;
-
 import { getBooks } from '@/lib/fetchBooks';
 import MDXLayout from '../../layouts/MDXLayout.astro';
 import { Star, Users } from 'lucide-react';
 
-const { slug } = Astro.params;
-console.log('Looking for book with slug:', slug);
-
-let books = [];
-let book = null;
-
-try {
-  books = await getBooks();
-  console.log('Fetched books count:', books.length);
-  book = books.find((b) => b.slug === slug);
-  console.log('Found book:', book ? book.title : 'not found');
-} catch (error) {
-  console.error('Error fetching books:', error);
+export async function getStaticPaths() {
+  const books = await getBooks();
+  return books.map((book) => ({
+    params: { slug: book.slug },
+    props: { book },
+  }));
 }
 
-if (!book) {
-  console.error(`Book with slug ${slug} not found`);
-  return Astro.redirect('/books');
-}
+const { book } = Astro.props;
 ---
 
 <MDXLayout frontmatter={book}

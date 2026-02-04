@@ -1,6 +1,4 @@
 ---
-export const prerender = false;
-
 import { getCollection } from 'astro:content';
 import { formateLocalDate, formateLocalMonth } from '../../lib/utils';
 import { Badge } from '../../components/ui/badge';
@@ -18,23 +16,9 @@ import ContentTags from '../../components/ContentTags.astro';
 import { Card, CardContent } from '@/components/ui/card';
 import { StarRating } from '@/components/react/StarRating';
 
-// TEST
-// const books = await getCollection('books');
-
-// books.sort((a, b) => {
-//   return new Date(b.data.startDate) - new Date(a.data.startDate);
-// });
-
 import { getBooks } from '@/lib/fetchBooks';
 
-let books = [];
-try {
-  console.log('[Books Index] Starting to fetch books...');
-  books = await getBooks();
-  console.log(`[Books Index] Loaded ${books.length} books successfully`);
-} catch (error) {
-  console.error('[Books Index] Error fetching books:', error);
-}
+const books = await getBooks();
 ---
 
 <IndexPageLayout
