@@ -1,17 +1,17 @@
 ---
+export const prerender = false;
+
 import { getBooks } from '@/lib/fetchBooks';
 import MDXLayout from '../../layouts/MDXLayout.astro';
 import { Star, Users } from 'lucide-react';
 
-export async function getStaticPaths() {
-  const books = await getBooks();
-  return books.map((book) => ({
-    params: { slug: book.slug },
-    props: { book },
-  }));
-}
+const { slug } = Astro.params;
+const books = await getBooks();
+const book = books.find((b) => b.slug === slug);
 
-const { book } = Astro.props;
+if (!book) {
+  return Astro.redirect('/books');
+}
 ---
 
 <MDXLayout frontmatter={book}
