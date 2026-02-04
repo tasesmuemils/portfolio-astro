@@ -1,20 +1,18 @@
 ---
+export const prerender = false;
+
 import { getBooks } from '@/lib/fetchBooks'; // Adjust the path as needed
 import MDXLayout from '../../layouts/MDXLayout.astro';
 import { Star, Users } from 'lucide-react';
 
-export async function getStaticPaths() {
-  // Fetch the books and generate paths dynamically
-  const books = await getBooks();
+// In hybrid mode with prerender = false, we need to handle the route differently
+const { slug } = Astro.params;
+const books = await getBooks();
+const book = books.find((b) => b.slug === slug);
 
-  return books.map((book) => ({
-    params: { slug: book.slug },
-    props: { book }, // Pass the full book object as props
-  }));
+if (!book) {
+  return Astro.redirect('/404');
 }
-
-// Get the book data from props
-const { book } = Astro.props;
 ---
 
 <MDXLayout frontmatter={book}

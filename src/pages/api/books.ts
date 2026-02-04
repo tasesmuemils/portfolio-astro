@@ -1,6 +1,8 @@
 import type { APIRoute } from 'astro';
 import { getBooks } from '@/lib/fetchBooks';
 
+export const prerender = false;
+
 export const GET: APIRoute = async () => {
   try {
     const books = await getBooks();
