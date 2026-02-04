@@ -28,73 +28,88 @@ import { StarRating } from '@/components/react/StarRating';
 import { getBooks } from '@/lib/fetchBooks';
 
 const books = await getBooks();
+console.log(`Books page: loaded ${books.length} books`);
 ---
 
 <IndexPageLayout
   title='Books I have listened'
-  description='I like to listen to books—mostly mysteries, thriller romances, true crime, history, and IT. Who has time to read when you can just hit play and let someone else do the work? Here are some of the audiobooks I’ve powered through while pretending to be productive.'
+  description='I like to listen to books—mostly mysteries, thriller romances, true crime, history, and IT. Who has time to read when you can just hit play and let someone else do the work? Here are some of the audiobooks I'
+  ve
+  powered
+  through
+  while
+  pretending
+  to
+  be
+  productive.'
   subTitle='Books'
 >
-  <div
-    class='grid grid-cols-1 md:grid-cols-2 gap-4 justify-center items-center'
-  >
-    {
-      books.slice(0, 10).map((book, index) => (
-        <Card className='mb-4 flex flex-col h-full'>
-          <CardContent className='pt-6 flex flex-col flex-grow justify-center'>
-            <div class='flex justify-between items-start'>
-              <div>
+  {
+    books.length === 0 ? (
+      <div class='p-8 text-center'>
+        <p class='text-lg text-gray-600 dark:text-gray-400'>
+          Unable to load books at this time. Please try again later.
+        </p>
+      </div>
+    ) : (
+      <div class='grid grid-cols-1 md:grid-cols-2 gap-4 justify-center items-center'>
+        {books.slice(0, 10).map((book, index) => (
+          <Card className='mb-4 flex flex-col h-full'>
+            <CardContent className='pt-6 flex flex-col flex-grow justify-center'>
+              <div class='flex justify-between items-start'>
+                <div>
+                  <a
+                    href={'/books/' + book.slug}
+                    class='font-semibold text-lg hover:underline'
+                  >
+                    {book.title}
+                  </a>
+                  <p class='text-sm text-gray-500'>{book.author}</p>
+                </div>
                 <a
                   href={'/books/' + book.slug}
-                  class='font-semibold text-lg hover:underline'
+                  class='text-primary hover:text-primary-dark'
                 >
-                  {book.title}
+                  <ArrowRight />
                 </a>
-                <p class='text-sm text-gray-500'>{book.author}</p>
               </div>
-              <a
-                href={'/books/' + book.slug}
-                class='text-primary hover:text-primary-dark'
-              >
-                <ArrowRight />
-              </a>
-            </div>
-            <div class='flex justify-between mt-4'>
-              <div>
-                <p class='text-sm font-semibold'>My Rating</p>
-                <StarRating rating={book.rating} />
-              </div>
-              <div>
-                <p class='text-sm font-semibold'>Avg. Rating</p>
-                <div class='flex items-center'>
-                  <Users className='w-4 h-4 mr-1' />
-                  {book.averageRating}
+              <div class='flex justify-between mt-4'>
+                <div>
+                  <p class='text-sm font-semibold'>My Rating</p>
+                  <StarRating rating={book.rating} />
+                </div>
+                <div>
+                  <p class='text-sm font-semibold'>Avg. Rating</p>
+                  <div class='flex items-center'>
+                    <Users className='w-4 h-4 mr-1' />
+                    {book.averageRating}
+                  </div>
+                </div>
+                <div>
+                  <p class='text-sm font-semibold'>Pages</p>
+                  <div class='flex items-center'>
+                    <Book className='w-4 h-4 mr-1' />
+                    {book.pages}
+                  </div>
                 </div>
               </div>
               <div>
-                <p class='text-sm font-semibold'>Pages</p>
-                <div class='flex items-center'>
-                  <Book className='w-4 h-4 mr-1' />
-                  {book.pages}
-                </div>
+                {index == 0 && (
+                  <Badge className='w-fit' variant='secondary'>
+                    Listening Now{' '}
+                    <span class='relative flex h-3 w-3 ml-2'>
+                      <span class='absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75' />
+                      <span class='relative inline-flex h-3 w-3 rounded-full bg-green-500' />
+                    </span>
+                  </Badge>
+                )}
               </div>
-            </div>
-            <div>
-              {index == 0 && (
-                <Badge className='w-fit' variant='secondary'>
-                  Listening Now{' '}
-                  <span class='relative flex h-3 w-3 ml-2'>
-                    <span class='absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75' />
-                    <span class='relative inline-flex h-3 w-3 rounded-full bg-green-500' />
-                  </span>
-                </Badge>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-      ))
-    }
-  </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    )
+  }
 </IndexPageLayout>
 
 <!-- <Table>

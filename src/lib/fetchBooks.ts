@@ -21,61 +21,80 @@ type RssData = {
 };
 
 async function fetchBooks(url: string): Promise<Book[]> {
-  // Add cache-busting parameter to the URL
-  const cacheBustUrl = `${url}&_cb=${Date.now()}`;
+  try {
+    // Add cache-busting parameter to the URL
+    const cacheBustUrl = `${url}&_cb=${Date.now()}`;
 
-  const response = await fetch(cacheBustUrl, {
-    headers: {
-      'Cache-Control': 'no-cache, no-store',
-      Pragma: 'no-cache',
-    },
-  });
+    const response = await fetch(cacheBustUrl, {
+      headers: {
+        'Cache-Control': 'no-cache, no-store',
+        Pragma: 'no-cache',
+      },
+    });
 
-  const rssText = await response.text();
-  const rssData = xml2js(rssText, { compact: true }) as RssData;
-  return rssData.rss.channel.item || [];
+    if (!response.ok) {
+      console.error(
+        `Failed to fetch books from ${url}: ${response.status} ${response.statusText}`,
+      );
+      return [];
+    }
+
+    const rssText = await response.text();
+    const rssData = xml2js(rssText, { compact: true }) as RssData;
+    return rssData.rss.channel.item || [];
+  } catch (error) {
+    console.error(`Error fetching books from ${url}:`, error);
+    return [];
+  }
 }
 
 export async function getBooks() {
-  const booksRead = await fetchBooks(RSS_URL_READ);
-  const booksCurrent = await fetchBooks(RSS_URL_CURRENT);
-  console.log(booksCurrent);
-  const books =
-    booksCurrent.length == 0 ? booksRead : [booksCurrent, ...booksRead];
+  try {
+    const booksRead = await fetchBooks(RSS_URL_READ);
+    const booksCurrent = await fetchBooks(RSS_URL_CURRENT);
+    console.log('Current books:', booksCurrent.length);
+    console.log('Read books:', booksRead.length);
 
-  const formattedBooks = books.map((book) => {
-    const title = book.title._cdata || book.title._text;
-    const slug = book.book_id._text; // Assuming the last part of the URL is the slug
-    const author = book.author_name._text;
-    const description = book.author_name._text;
-    const dates = {
-      // You can set custom logic to extract dates from the RSS feed or leave them empty
-      readStartDate: null, // Example, you can populate with actual date data if available
-      readEndDate: null, // Example, you can populate with actual date data if available
-    };
-    const image =
-      book.book_large_image_url._cdata || book.book_large_image_url._text;
-    const rating = book.user_rating._text;
-    const averageRating = book.average_rating._text;
-    const long_description =
-      book.book_description._cdata || book.book_description._text;
-    const pages = book.book.num_pages._text;
+    const books =
+      booksCurrent.length == 0 ? booksRead : [booksCurrent, ...booksRead];
 
-    return {
-      description,
-      long_description,
-      title,
-      slug,
-      author,
-      dates,
-      image,
-      rating,
-      averageRating,
-      pages,
-    };
-  });
+    const formattedBooks = books.map((book) => {
+      const title = book.title._cdata || book.title._text;
+      const slug = book.book_id._text; // Assuming the last part of the URL is the slug
+      const author = book.author_name._text;
+      const description = book.author_name._text;
+      const dates = {
+        // You can set custom logic to extract dates from the RSS feed or leave them empty
+        readStartDate: null, // Example, you can populate with actual date data if available
+        readEndDate: null, // Example, you can populate with actual date data if available
+      };
+      const image =
+        book.book_large_image_url._cdata || book.book_large_image_url._text;
+      const rating = book.user_rating._text;
+      const averageRating = book.average_rating._text;
+      const long_description =
+        book.book_description._cdata || book.book_description._text;
+      const pages = book.book.num_pages._text;
 
-  console.log(formattedBooks);
+      return {
+        description,
+        long_description,
+        title,
+        slug,
+        author,
+        dates,
+        image,
+        rating,
+        averageRating,
+        pages,
+      };
+    });
 
-  return formattedBooks;
+    console.log('Formatted books:', formattedBooks.length);
+
+    return formattedBooks;
+  } catch (error) {
+    console.error('Error in getBooks:', error);
+    return [];
+  }
 }
