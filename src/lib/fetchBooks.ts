@@ -25,12 +25,19 @@ async function fetchBooks(url: string): Promise<Book[]> {
     // Add cache-busting parameter to the URL
     const cacheBustUrl = `${url}&_cb=${Date.now()}`;
 
+    // Add timeout to prevent long waits
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 second timeout
+
     const response = await fetch(cacheBustUrl, {
       headers: {
         'Cache-Control': 'no-cache, no-store',
         Pragma: 'no-cache',
       },
+      signal: controller.signal,
     });
+
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       console.error(
@@ -55,15 +62,23 @@ async function fetchBooks(url: string): Promise<Book[]> {
 
     return items;
   } catch (error) {
-    console.error(`Error fetching books from ${url}:`, error);
+    if (error.name === 'AbortError') {
+      console.error(`Timeout fetching books from ${url}`);
+    } else {
+      console.error(`Error fetching books from ${url}:`, error);
+    }
     return [];
   }
 }
 
 export async function getBooks() {
   try {
-    const booksRead = await fetchBooks(RSS_URL_READ);
-    const booksCurrent = await fetchBooks(RSS_URL_CURRENT);
+    // Fetch both RSS feeds in parallel for better performance
+    const [booksRead, booksCurrent] = await Promise.all([
+      fetchBooks(RSS_URL_READ),
+      fetchBooks(RSS_URL_CURRENT),
+    ]);
+
     console.log('Current books:', booksCurrent?.length ?? 'undefined');
     console.log('Read books:', booksRead?.length ?? 'undefined');
 

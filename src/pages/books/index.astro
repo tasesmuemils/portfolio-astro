@@ -27,8 +27,14 @@ import { StarRating } from '@/components/react/StarRating';
 
 import { getBooks } from '@/lib/fetchBooks';
 
-const books = await getBooks();
-console.log(`Books page: loaded ${books.length} books`);
+let books = [];
+try {
+  console.log('[Books Index] Starting to fetch books...');
+  books = await getBooks();
+  console.log(`[Books Index] Loaded ${books.length} books successfully`);
+} catch (error) {
+  console.error('[Books Index] Error fetching books:', error);
+}
 ---
 
 <IndexPageLayout
