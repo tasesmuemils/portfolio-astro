@@ -41,7 +41,19 @@ async function fetchBooks(url: string): Promise<Book[]> {
 
     const rssText = await response.text();
     const rssData = xml2js(rssText, { compact: true }) as RssData;
-    return rssData.rss.channel.item || [];
+    const items = rssData.rss.channel.item;
+
+    // Handle different response formats
+    if (!items) {
+      return [];
+    }
+
+    // If item is a single object, wrap it in an array
+    if (!Array.isArray(items)) {
+      return [items];
+    }
+
+    return items;
   } catch (error) {
     console.error(`Error fetching books from ${url}:`, error);
     return [];
@@ -52,21 +64,24 @@ export async function getBooks() {
   try {
     const booksRead = await fetchBooks(RSS_URL_READ);
     const booksCurrent = await fetchBooks(RSS_URL_CURRENT);
-    console.log('Current books:', booksCurrent.length);
-    console.log('Read books:', booksRead.length);
+    console.log('Current books:', booksCurrent?.length ?? 'undefined');
+    console.log('Read books:', booksRead?.length ?? 'undefined');
 
-    const books =
-      booksCurrent.length == 0 ? booksRead : [booksCurrent, ...booksRead];
+    // Combine current and read books properly - ensure both are arrays
+    const allBooks = [
+      ...(Array.isArray(booksCurrent) ? booksCurrent : []),
+      ...(Array.isArray(booksRead) ? booksRead : []),
+    ];
+    console.log('Total books combined:', allBooks.length);
 
-    const formattedBooks = books.map((book) => {
+    const formattedBooks = allBooks.map((book) => {
       const title = book.title._cdata || book.title._text;
-      const slug = book.book_id._text; // Assuming the last part of the URL is the slug
+      const slug = book.book_id._text;
       const author = book.author_name._text;
       const description = book.author_name._text;
       const dates = {
-        // You can set custom logic to extract dates from the RSS feed or leave them empty
-        readStartDate: null, // Example, you can populate with actual date data if available
-        readEndDate: null, // Example, you can populate with actual date data if available
+        readStartDate: null,
+        readEndDate: null,
       };
       const image =
         book.book_large_image_url._cdata || book.book_large_image_url._text;
